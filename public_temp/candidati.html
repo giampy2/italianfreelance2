@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Candidati alla vetrina di ItalianFreelance. Compila il modulo per presentarti e farti notare.">
+  <meta name="author" content="Giampaolo Cappellotto">
+  <meta name="keywords" content="freelance, candidatura, vetrina, ItalianFreelance, presentazione">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <title>Candidati – ItalianFreelance</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Montserrat', sans-serif; background: #f9f9f9; margin: 0; color: #333; }
+    header { background: #1a1a1a; color: white; padding: 30px 20px; text-align: center; }
+    header img { height: 60px; margin-bottom: 10px; }
+    nav { margin-top: 15px; }
+    nav a { color: #e63946; margin: 0 12px; text-decoration: none; font-weight: bold; }
+    nav a:hover { text-decoration: underline; }
+    nav a.active { pointer-events: none; opacity: 0.6; }
+    header h1 { font-size: 2em; margin-bottom: 5px; }
+    .container { max-width: 700px; margin: 40px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    h2 { text-align: center; color: #e63946; margin-bottom: 30px; }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    input, textarea, select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; }
+    button { margin-top: 20px; padding: 12px; background: #e63946; color: white; border: none; border-radius: 5px; font-weight: bold; width: 100%; cursor: pointer; }
+    button:hover { background: #d62839; }
+    .hidden { display: none; }
+    #risposta { margin-top: 20px; font-weight: bold; text-align: center; }
+    footer { background: #1a1a1a; color: white; text-align: center; padding: 30px 20px; margin-top: 40px; }
+    footer a { color: #e63946; margin: 0 10px; text-decoration: none; }
+
+    @media (max-width: 768px) {
+      header h1 { font-size: 1.6em; }
+      nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 20px; }
+      .container { padding: 25px 15px; margin: 20px auto; }
+      h2 { font-size: 1.4em; }
+      input, textarea, button, select { font-size: 1em; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="index.html"><img src="logo.png" alt="Logo ItalianFreelance"></a>
+  <h1>Candidati alla Vetrina</h1>
+  <p>Compila il modulo per presentarti e farti notare.</p>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="vetrina.html">Vetrina</a>
+    <a href="candidati.html" class="active">Candidati</a>
+    <a href="cerca-professionista.html">Trova un freelance</a>
+    <a href="comefunziona.html">Come funziona</a>
+    <a href="contatti.html">Contatti</a>
+    <a href="manifesto.html">Chi siamo</a>
+  </nav>
+</header>
+
+<div class="container">
+  <h2>Invia la tua candidatura</h2>
+  <form id="candidaturaForm">
+    <label for="nome">Nome completo</label>
+    <input type="text" id="nome" name="nome" required>
+
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="telefono">Telefono</label>
+    <input type="tel" id="telefono" name="telefono">
+
+    <label for="portfolio">Portfolio online (sito, Behance, GitHub...)</label>
+    <input type="url" id="portfolio" name="portfolio">
+
+    <label for="preferenza">Come vuoi essere contattato?</label>
+    <select id="preferenza" name="preferenza">
+      <option value="email">Email</option>
+      <option value="telefono">Telefono</option>
+      <option value="whatsapp">WhatsApp</option>
+      <option value="telegram">Telegram</option>
+    </select>
+
+    <label for="presentazione">Breve presentazione</label>
+    <textarea id="presentazione" name="presentazione" rows="5" required></textarea>
+
+    <button type="submit">Invia candidatura</button>
+  </form>
+
+  <div id="risposta"></div>
+</div>
+
+<footer>
+  <p>&copy; 2025 ItalianFreelance – Tutti i diritti riservati.</p>
+  <p>
+    <a href="index.html">Home</a> |
+    <a href="vetrina.html">Vetrina</a> |
+    <a href="candidati.html">Candidati</a> |
+    <a href="cerca-professionista.html">Trova un freelance</a> |
+    <a href="comefunziona.html">Come funziona</a> |
+    <a href="manifesto.html">Chi siamo</a>
+  </p>
+</footer>
+
+<script>
+  document.getElementById('candidaturaForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const dati = {
+      nome: document.getElementById('nome').value,
+      email: document.getElementById('email').value,
+      telefono: document.getElementById('telefono').value,
+      portfolio: document.getElementById('portfolio').value,
+      preferenza: document.getElementById('preferenza').value,
+      presentazione: document.getElementById('presentazione').value
+    };
+
+    try {
+      const res = await fetch('https://italianfreelance-backend.onrender.com/api/data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dati)
+      });
+      const risposta = await res.json();
+      document.getElementById('risposta').textContent = "✅ Candidatura inviata con successo!";
+    } catch (err) {
+      document.getElementById('risposta').textContent = "❌ Errore nell'invio: " + err.message;
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-65Z7ZTPMTR', { 'debug_mode': true });
+
+// Evento simulato: invio modulo
+gtag('event', 'conversione_richiesta', {
+  'event_category': 'modulo',
+  'event_label': 'invio_test',
+  'debug_mode': true
+});
+
+// Evento simulato: clic su Hotjar
+gtag('event', 'hotjar_click', {
+  'event_category': 'cta',
+  'event_label': 'hotjar_test',
+  'debug_mode': true
+});
+
+console.log("Eventi conversione_richiesta e hotjar_click inviati a GA4");

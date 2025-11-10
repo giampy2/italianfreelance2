@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Segnala un progetto – ItalianFreelance</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Segnala un progetto e ricevi candidature da freelance operativi. Nessuna piattaforma, solo contatto diretto.">
+  <meta name="author" content="Giampaolo Cappellotto">
+  <link rel="canonical" href="https://www.italianfreelance.com/richiedi.html">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Google Analytics GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2GZJZKXJ4Z"></script>
+  <script src="/js/ga-richiedi.js"></script>
+
+  <!-- Microsoft Clarity -->
+  <script src="/js/clarity.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      font-family: 'Montserrat', sans-serif;
+      color: #333;
+    }
+    .container {
+      max-width: 480px;
+      margin: 4rem auto;
+      padding: 2rem;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    h1 {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+      color: #e63946;
+      text-align: center;
+    }
+    p {
+      font-size: 1rem;
+      margin-bottom: 2rem;
+      color: #555;
+      text-align: center;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 0.7rem;
+      margin-bottom: 1rem;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      color: #333;
+      font-size: 0.95rem;
+    }
+    input::placeholder, textarea::placeholder {
+      color: #888;
+    }
+    button {
+      width: 100%;
+      padding: 0.8rem;
+      background-color: #e63946;
+      border: none;
+      color: #fff;
+      font-size: 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.2s ease;
+    }
+    button:hover {
+      background-color: #d62828;
+    }
+    #risposta {
+      margin-top: 15px;
+      font-weight: bold;
+      text-align: center;
+    }
+    @media (max-width: 600px) {
+      .container {
+        margin: 2rem 1rem;
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Segnala un progetto</h1>
+    <p>Ti troviamo il professionista giusto. Niente piattaforme, niente algoritmi. Solo contatto diretto e progetti veri.</p>
+
+    <form id="moduloRichiesta">
+      <input type="text" id="nome" placeholder="Nome e Cognome" required>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="tel" id="telefono" placeholder="Telefono">
+      <textarea id="descrizione" placeholder="Descrizione del progetto" required></textarea>
+      <input type="text" id="budget" placeholder="Budget indicativo (es: 500€, 50€/h)">
+      <input type="text" id="scadenza" placeholder="Scadenza prevista (gg/mm/aaaa)">
+      <select id="contatto_preferito" required>
+        <option value="">Contatto preferito</option>
+        <option value="email">Email</option>
+        <option value="telefono">Telefono</option>
+        <option value="whatsapp">WhatsApp</option>
+      </select>
+      <button type="submit">Invia richiesta</button>
+    </form>
+
+    <div id="risposta"></div>
+
+    <div class="affiliate-box" style="margin-top: 20px; text-align: center;">
+      <a href="https://clk.tradedoubler.com/click?p=377429&a=3457972&url=https%3A%2F%2Fwww.italianfreelance.com%2Frichiedi.html"
+         target="_blank" rel="nofollow noopener">
+        <strong style="color:#e63946;">Scopri Doctor Quality – il Megastore di Fiducia</strong>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('moduloRichiesta').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const dati = {
+        nome: document.getElementById('nome').value,
+        email: document.getElementById('email').value,
+        telefono: document.getElementById('telefono').value,
+        descrizione: document.getElementById('descrizione').value,
+        budget: document.getElementById('budget').value,
+        scadenza: document.getElementById('scadenza').value,
+        contatto_preferito: document.getElementById('contatto_preferito').value
+      };
+
+      try {
+        const res = await fetch('https://italianfreelance-backend.onrender.com/api/data', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(dati)
+        });
+        await res.json();
+        document.getElementById('risposta').textContent = "✅ Richiesta inviata con successo!";
+      } catch (err) {
+        document.getElementById('risposta').textContent = "❌ Errore nell'invio: " + err.message;
+      }
+    });
+  </script>
+</body>
+</html>
