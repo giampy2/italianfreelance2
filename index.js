@@ -26,8 +26,6 @@ app.use(limiter);
 // Serve i file statici dalla cartella corretta
 app.use(express.static(path.join(__dirname, 'public_temp')));
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public_temp', 'index.html'));
 });
 
 const PORT = process.env.PORT || 3000;
