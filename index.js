@@ -26,3 +26,6 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`✅ Server avviato su http://localhost:${PORT}`);
 });
+
+// Modifica finta per forzare il commit
+
