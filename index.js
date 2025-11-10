@@ -7,34 +7,30 @@ const path = require('path');
 
 const app = express();
 
-// Sicurezza
 app.use(express.json());
 app.use(cookieParser());
 app.use(helmet());
 
-// Protezione CSRF
 const csrfProtection = csurf({ cookie: true });
-app.use(csrfProtection);
+app.use((req, res, next) => {
+  if (req.path === '/') return next();
+  csrfProtection(req, res, next);
+});
 
-// Limitatore di richieste
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100
 });
 app.use(limiter);
 
-// Serve i file statici dal frontend
-app.use(express.static(path.join(__dirname, 'public')));
+// Serve i file statici dalla cartella corretta
+app.use(express.static(path.join(__dirname, 'public_temp')));
 
-// Homepage
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'public_temp', 'index.html'));
 });
 
-// Avvio server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`✅ Server avviato su http://localhost:${PORT}`);
 });
-
-
